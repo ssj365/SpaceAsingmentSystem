@@ -6,12 +6,12 @@ Iteration 1.0
 Key features that still need to be developed: 
 
     • Submit a request for a given time period. (User)
-    • Approve / deny a valid request.   (Admin)
+    • Approve / deny a valid request. (Admin)
         ◦ Check that a request is Valid (System)
         ◦ Notify uses on cancellation, rejection or approval.
     • Cancel a room request that is valid (User)
         ◦ Remove the request from the pending approval requests. 
-    • Black out a given room for a given time frame.  (Admin)
+    • Black out a given room for a given time frame. (Admin)
         ◦ Black out a room on a set schedule (Admin)
         ◦ Black out a room for a single time slot. (Admin)
     • Modify the Calendar (Admin) 
@@ -26,7 +26,8 @@ The main goal of this iteration will be producing a system in which we can submi
 
 Change log : 
  
-version 1.0
-    • Initial commit of project to git-hub
-    • Excitable architecture built. 
+version 1.0:
+
+	   	• Initial commit of project to git-hub
+    	• Excitable architecture built. 
       
