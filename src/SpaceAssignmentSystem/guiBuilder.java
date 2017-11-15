@@ -1,4 +1,5 @@
 package SpaceAssignmentSystem;
+import java.text.SimpleDateFormat;
 
 import javax.swing.*;
 import javax.swing.JFormattedTextField.AbstractFormatter;
@@ -15,6 +16,8 @@ import org.jdatepicker.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Properties;
 
 
@@ -41,24 +44,36 @@ public class guiBuilder extends JPanel {
 		JLabel dayLable = new JLabel("Day:");
 		JLabel startL = new JLabel("Start:");
 		JLabel endL = new JLabel("End: ");
+		
+		// create all the swing panes and tables
 		JPanel mainPane = new JPanel(new BorderLayout());
 		JPanel toolBarPane = new JPanel(new BorderLayout());
 		JPanel dropDownPane = new JPanel();
 		JPanel buttonPane = new JPanel();
-		JScrollPane calenderPane = new JScrollPane(table);
-		JTextField startField = new JTextField(7);
-		startField.setText("10:00");
-		JTextField endField = new JTextField(7);
-		endField.setText("12:00");
+		JScrollPane calenderPane = new JScrollPane(table);		
+		
+		// Build the JSpinner to enter in time of day for booking, both start and end 		
+		Date startDate = new Date();
+		Date endDate = new Date();
+		SpinnerModel startSpinnerModel = new SpinnerDateModel(startDate, null, null, Calendar.MINUTE);
+		SpinnerModel endSpinnerModel = new SpinnerDateModel(endDate, null, null, Calendar.MINUTE);
+        JSpinner startSpinner = new JSpinner(startSpinnerModel);
+        JSpinner endSpinner = new JSpinner(endSpinnerModel);
+        JSpinner.DateEditor se = new JSpinner.DateEditor(startSpinner, "hh:mm a");
+        JSpinner.DateEditor ee = new JSpinner.DateEditor(endSpinner, "hh:mm a");
+        startSpinner.setEditor(se);
+        endSpinner.setEditor(ee);
+             
+   
 		
 		// Build button for submission. 
 		JButton submit = new JButton("submit");
 		submit.addActionListener( new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e)  {
-		    	 JOptionPane.showMessageDialog(null, "Test message! Start: " + startField.getText() + " End: " + endField.getText() + " In " + roomBox.getSelectedItem(), "TO-DO message box", JOptionPane.INFORMATION_MESSAGE);
-		    	 startField.setText("");
-		    	 endField.setText("");
+		    	//JOptionPane.showMessageDialog(null, "place holder");
+		    	JOptionPane.showMessageDialog(null, "Start: " + startSpinner.getValue() + " End: " + endSpinner.getValue() + " In " + roomBox.getSelectedItem(), "TO-DO message box", JOptionPane.INFORMATION_MESSAGE);
+		    	 
 		    }
 		});
 		
@@ -78,9 +93,9 @@ public class guiBuilder extends JPanel {
 	    dropDownPane.add(datePicker);
 	    dropDownPane.add(roomBox);
 		dropDownPane.add(startL);
-		dropDownPane.add(startField);
+		dropDownPane.add(startSpinner);
 		dropDownPane.add(endL);
-		dropDownPane.add(endField);
+		dropDownPane.add(endSpinner);
 		
 	
 		// Set all the layouts and add all the elements to the appropriate frames.
