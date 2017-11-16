@@ -17,6 +17,7 @@ import java.util.Properties;
 
 // Main GUI class, handles building SWING elements for rendering.
 public class guiBuilder extends JPanel {
+	@SuppressWarnings("deprecation")
 	public guiBuilder() {
 		
 		// load dummy data for rapid prototyping
@@ -73,14 +74,19 @@ public class guiBuilder extends JPanel {
 		});
 		
 		// Set up parameters and objects for JDatePicker swing elements 
+		Date now = Calendar.getInstance().getTime();
+		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyy");
+		String today = DATE_FORMAT.format(now);
 		Properties p = new Properties();
 		p.put("text.today", "Today");
 		p.put("text.day", "Day");
 		p.put("text.month", "Month");
 		p.put("text.year", "Year");		
-		UtilDateModel model = new UtilDateModel();
+		UtilDateModel model = new UtilDateModel();		
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateComponentFormatter());
+		datePicker.getJFormattedTextField().setText(today);
+
 		
 		// Add elements to sub panes:		
 		buttonPane.add(submit);	
