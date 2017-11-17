@@ -16,7 +16,6 @@ import java.util.Properties;
 // Main GUI class, handles building SWING elements for rendering.
 public class guiBuilder extends JPanel {
 	public guiBuilder() {
-		
 		// load dummy data for rapid prototyping
 		String[] columnNames = { "Room 1", "Room 2", "Room 3", "Room 4", "Room 5", "Room 6", "Room 7" };
 		Object[][] data = buildDay();
@@ -69,6 +68,18 @@ public class guiBuilder extends JPanel {
 		    	JOptionPane.showMessageDialog(null, "Booked, Starting: " + startString + " Ending: " + endString + " In " + roomBox.getSelectedItem() , "TO-DO message box", JOptionPane.INFORMATION_MESSAGE);
 		    }
 		});
+	
+		
+		JButton requests = new JButton("requests");
+		
+		requests.addActionListener( new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e)  {
+		    	JOptionPane.showMessageDialog(null, "to do");
+		    }
+			
+		});
+		
 		
 		// Set up parameters and objects for JDatePicker swing elements 
 		Date now = Calendar.getInstance().getTime();
@@ -85,8 +96,13 @@ public class guiBuilder extends JPanel {
 		datePicker.getJFormattedTextField().setText(today);
 		
 		
+		// Add buttons, add requests button iff user is Admin.
+		buttonPane.add(submit);			
+		if (user.getUser().equals("Admin")) {
+			buttonPane.add(requests);
+		};
+		
 		// Add elements to sub panes:
-		buttonPane.add(submit);	
 	    dropDownPane.add(datePicker);	   
 		dropDownPane.add(startL);
 		dropDownPane.add(startSpinner);
@@ -108,7 +124,7 @@ public class guiBuilder extends JPanel {
 
 	public static void renderGUI() {
 		//Create the frame for the scheduler
-		JFrame frame = new JFrame("Scheduler");
+		JFrame frame = new JFrame(user.getUser());
 		// Create the schedule table pane and attach it to the frame.
 		guiBuilder newContentPane = new guiBuilder();
 		newContentPane.setOpaque(true);
