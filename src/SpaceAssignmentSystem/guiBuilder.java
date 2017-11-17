@@ -2,12 +2,10 @@ package SpaceAssignmentSystem;
 
 import javax.swing.*;
 import java.text.SimpleDateFormat;
-import javax.swing.JFormattedTextField.AbstractFormatter;
+
 import javax.swing.table.DefaultTableCellRenderer;
 import org.jdatepicker.impl.*;
-import org.jdatepicker.util.*;
 import SpaceAssignmentSystem.guiBuilder;
-import org.jdatepicker.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +15,6 @@ import java.util.Properties;
 
 // Main GUI class, handles building SWING elements for rendering.
 public class guiBuilder extends JPanel {
-	@SuppressWarnings("deprecation")
 	public guiBuilder() {
 		
 		// load dummy data for rapid prototyping
@@ -86,14 +83,14 @@ public class guiBuilder extends JPanel {
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateComponentFormatter());
 		datePicker.getJFormattedTextField().setText(today);
-
 		
-		// Add elements to sub panes:		
+		
+		// Add elements to sub panes:
 		buttonPane.add(submit);	
 	    dropDownPane.add(datePicker);	   
 		dropDownPane.add(startL);
 		dropDownPane.add(startSpinner);
-		dropDownPane.add(endL);
+		dropDownPane.add(endL);	
 		dropDownPane.add(endSpinner);
 		dropDownPane.add(roomBox);
 	
