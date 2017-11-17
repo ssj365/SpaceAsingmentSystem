@@ -75,9 +75,24 @@ public class guiBuilder extends JPanel {
 		requests.addActionListener( new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e)  {
-		    	JOptionPane.showMessageDialog(null, "to do");
+		    	if (user.getUser().equals("Admin")) {
+		    		adminWindow.renderAdminWindow();
+				}
+		    	else {
+					userWindow.renderUserWindow();
+		    	};
+		   
 		    }
 			
+		});
+		
+		
+		JButton BOButton = new JButton("Black Out");
+		BOButton.addActionListener( new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e)  {
+		    	JOptionPane.showMessageDialog(null, "To Do");
+		    }
 		});
 		
 		
@@ -97,10 +112,15 @@ public class guiBuilder extends JPanel {
 		
 		
 		// Add buttons, add requests button iff user is Admin.
-		buttonPane.add(submit);			
 		if (user.getUser().equals("Admin")) {
-			buttonPane.add(requests);
-		};
+			buttonPane.add(BOButton);
+		}
+		else {
+			buttonPane.add(submit);
+		}
+
+		buttonPane.add(requests);
+	
 		
 		// Add elements to sub panes:
 	    dropDownPane.add(datePicker);	   

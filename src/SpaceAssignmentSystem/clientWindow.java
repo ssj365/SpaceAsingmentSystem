@@ -9,6 +9,7 @@ import SpaceAssignmentSystem.guiBuilder;
 import SpaceAssignmentSystem.user;
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class clientWindow extends JPanel{
 	
 	String[] userList = user.getUsers();
