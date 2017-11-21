@@ -1,5 +1,5 @@
 package SpaceAssignmentSystem;
 
-public class requestHanlder {
+public class RequestHandler {
 	// To Do later
 }
