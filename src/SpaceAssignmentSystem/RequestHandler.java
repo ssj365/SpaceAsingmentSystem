@@ -22,11 +22,12 @@ public class RequestHandler {
 		for(String s : schedule.roomNames()) {
 			ArrayList<Booking> bookings = new ArrayList<Booking>();
 			for(Booking b : schedule.getRoom(s).bookings) {
-				if(b.end.month == d.month && b.end.day == d.day) {
+				if(b.start.equals(d)) {
 					bookings.add(b);
 				}
 			}
-			m.put(s, (Booking[]) bookings.toArray());
+			Booking[] bookingsArray = new Booking[bookings.size()];
+			m.put(s, bookings.toArray(bookingsArray));
 		}
 		return m;
 	}
@@ -94,6 +95,9 @@ public class RequestHandler {
 	
 	public boolean approveRequest(Request r) throws SchedulerException {
 		Room room = schedule.getRoom(r.room);
+		if(room.bookings.isEmpty()) {
+			return room.bookings.add(r.booking);
+		}
 		for(Booking b : room.bookings) {
 			if( b.start.after(r.booking.start) && b.start.before(r.booking.end) ) {
 				throw new SchedulerException();

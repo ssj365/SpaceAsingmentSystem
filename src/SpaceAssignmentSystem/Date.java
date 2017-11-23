@@ -6,6 +6,22 @@ public class Date implements Comparable<Date> {
 	public int hour;
 	public int min;
 	
+	public Date(int m, int d) throws SchedulerException {
+		if(m > 0 && m < 13) {
+			month = m;
+		}
+		else {
+			throw new SchedulerException();
+		}
+		if(d > 0 && d< 32) {
+			day = d;
+		}
+		else {
+			throw new SchedulerException();
+		}
+		hour = -1;
+	}
+	
 	public Date(int m, int d, int h, int mi) throws SchedulerException {
 		if(m > 0 && m < 13) {
 			month = m;
@@ -46,6 +62,9 @@ public class Date implements Comparable<Date> {
 		}
 		if(day < d.day) {
 			return -1;
+		}
+		if(d.hour == -1 || hour == -1) {
+			return 0;
 		}
 		if(hour > d.hour) {
 			return 1;
@@ -89,6 +108,10 @@ public class Date implements Comparable<Date> {
 		else {
 			return false;
 		}
+	}
+	
+	public String toString() {
+		return month + "/" + day + "/" + hour + "/" + min;
 	}
 	
 }
