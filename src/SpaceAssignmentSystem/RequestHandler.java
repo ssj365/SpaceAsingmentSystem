@@ -93,26 +93,12 @@ public class RequestHandler {
 		denied.add(r);
 	}
 	
-	public boolean approveRequest(Request r) throws SchedulerException {
-		Room room = schedule.getRoom(r.room);
-		if(room.bookings.isEmpty()) {
-			return room.bookings.add(r.booking);
-		}
-		for(Booking b : room.bookings) {
-			if( b.start.after(r.booking.start) && b.start.before(r.booking.end) ) {
-				throw new SchedulerException();
-			}
-			if( b.end.after(r.booking.start) && b.end.before(r.booking.end) ) {
-				throw new SchedulerException();
-			}
-			else{
-				return room.bookings.add(r.booking);
-			}
-		}
-		return false;				
+	public void approveRequest(Request[] requests) throws SchedulerException {
+		schedule.approveRequest(requests);
 	}
 	
-	public void rejectRequest() {}
-	
+	public void approveRequest(Request r) throws SchedulerException {
+		schedule.approveRequest(r);
+	}
 	
 }
