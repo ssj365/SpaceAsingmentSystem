@@ -1,0 +1,94 @@
+package SpaceAssignmentSystem;
+
+public class Date implements Comparable<Date> {
+	public int month;
+	public int day;
+	public int hour;
+	public int min;
+	
+	public Date(int m, int d, int h, int mi) throws SchedulerException {
+		if(m > 0 && m < 13) {
+			month = m;
+		}
+		else {
+			throw new SchedulerException();
+		}
+		if(d > 0 && d< 32) {
+			day = d;
+		}
+		else {
+			throw new SchedulerException();
+		}
+		if(h > 6 && h < 23) { //rooms can only be booked between 6am and 11pm
+			hour = h;
+		}
+		else {
+			throw new SchedulerException();
+		}
+		if( mi%15 == 0 && mi >= 0 && mi < 60 ) {
+			min = mi;
+		}
+		else {
+			throw new SchedulerException();
+		}
+	}
+
+	@Override
+	public int compareTo(Date d) {
+		if(month > d.month) {
+			return 1;
+		}
+		if(month < d.month) {
+			return -1;
+		}
+		if(day > d.day) {
+			return 1;
+		}
+		if(day < d.day) {
+			return -1;
+		}
+		if(hour > d.hour) {
+			return 1;
+		}
+		if(hour < d.hour) {
+			return  -1;
+		}
+		if(min > d.min) {
+			return 1;
+		}
+		if(min < d.min) {
+			return  -1;
+		}
+		else {
+			return 0;
+		}
+	}
+
+	public boolean after(Date d) {
+		if(this.compareTo(d) == 1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean before(Date d) {
+		if(this.compareTo(d) == -1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean equals(Date d) {
+		if(this.compareTo(d) == 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+}
