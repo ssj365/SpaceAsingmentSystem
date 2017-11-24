@@ -19,32 +19,33 @@ public class guiBuilder extends JPanel {
 		// load dummy data for rapid prototyping
 		String[] columnNames = { "Room 1", "Room 2", "Room 3", "Room 4", "Room 5", "Room 6", "Room 7" };
 		Object[][] data = buildDay();
-		
-		// Create the table for displaying rooms:		
+
+		// Create the table for displaying rooms:
 		JTable table = new JTable(data, columnNames);
 		JComboBox<String> roomBox = new JComboBox<String>(columnNames);
-		
+
 		// Set the cell rendering to center for all cells.
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer() ;
 		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
 		 for(int x=0;x<table.getColumnCount();x++){
 	         table.getColumnModel().getColumn(x).setCellRenderer(centerRenderer);
+					 table.getColumnModel().getColumn(x).setCellRenderer(new CustomRenderer());
 	        }
 		table.setEnabled(false);
 		JTable rowTable = new RowNumberTable(table);
-		
+
 		// Create all other swing elements.
 		JLabel startL = new JLabel("Start:");
 		JLabel endL = new JLabel("End: ");
-		
+
 		// create all the swing panes and tables
 		JPanel mainPane = new JPanel(new BorderLayout());
 		JPanel toolBarPane = new JPanel(new BorderLayout());
 		JPanel dropDownPane = new JPanel();
 		JPanel buttonPane = new JPanel();
-		JScrollPane calenderPane = new JScrollPane(table);		
-		
-		// Build the JSpinner to enter in time of day for booking, both start and end.	
+		JScrollPane calenderPane = new JScrollPane(table);
+
+		// Build the JSpinner to enter in time of day for booking, both start and end.
 		Date startDate = new Date();
 		Date endDate = new Date();
 		SpinnerModel startSpinnerModel = new SpinnerDateModel(startDate, null, null, Calendar.MINUTE);
@@ -55,23 +56,26 @@ public class guiBuilder extends JPanel {
         JSpinner.DateEditor ee = new JSpinner.DateEditor(endSpinner, "hh:mm a");
         startSpinner.setEditor(se);
         endSpinner.setEditor(ee);
-      
-        
-		JButton submit = new JButton("submit");
-		// Proof of concept button listener, rebuild later. 
+
+
+		JButton submit = new JButton("Submit");
+		// Proof of concept button listener, rebuild later.
 		submit.addActionListener( new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e)  {
 		    	SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("hh:mm a");
 		    	String startString = DATE_FORMAT.format((startSpinner.getValue()));
 		    	String endString = DATE_FORMAT.format((endSpinner.getValue()));
-		    	JOptionPane.showMessageDialog(null, "Booked, Starting: " + startString + " Ending: " + endString + " In " + roomBox.getSelectedItem() , "TO-DO message box", JOptionPane.INFORMATION_MESSAGE);
+					//if error occurs JOptionPane.showMessageDialog(null, "Can not book from: " + startString + " to: " + endString + " in " + roomBox.getSelectedItem() , "Unsuccessful Booking", JOptionPane.INFORMATION_MESSAGE);
+
+					//else
+					JOptionPane.showMessageDialog(null, "Booked, Starting: " + startString + " Ending: " + endString + " in " + roomBox.getSelectedItem() , "Successful Booking", JOptionPane.INFORMATION_MESSAGE);
 		    }
 		});
-	
-		
-		JButton requests = new JButton("requests");
-		
+
+
+		JButton requests = new JButton("Requests");
+
 		requests.addActionListener( new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e)  {
@@ -81,22 +85,22 @@ public class guiBuilder extends JPanel {
 		    	else {
 					userWindow.renderUserWindow();
 		    	};
-		   
+
 		    }
-			
+
 		});
-		
-		
+
+
 		JButton BOButton = new JButton("Black Out");
 		BOButton.addActionListener( new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e)  {
-		    	JOptionPane.showMessageDialog(null, "To Do");
+		    	JOptionPane.showMessageDialog(null, roomBox.getSelectedItem() + " has been blacked out" , "Black Out Alert", JOptionPane.INFORMATION_MESSAGE);
 		    }
 		});
-		
-		
-		// Set up parameters and objects for JDatePicker swing elements 
+
+
+		// Set up parameters and objects for JDatePicker swing elements
 		Date now = Calendar.getInstance().getTime();
 		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyy");
 		String today = DATE_FORMAT.format(now);
@@ -104,13 +108,13 @@ public class guiBuilder extends JPanel {
 		p.put("text.today", "Today");
 		p.put("text.day", "Day");
 		p.put("text.month", "Month");
-		p.put("text.year", "Year");		
-		UtilDateModel model = new UtilDateModel();		
+		p.put("text.year", "Year");
+		UtilDateModel model = new UtilDateModel();
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateComponentFormatter());
 		datePicker.getJFormattedTextField().setText(today);
-		
-		
+
+
 		// Add buttons, add requests button iff user is Admin.
 		if (user.getUser().equals("Admin")) {
 			buttonPane.add(BOButton);
@@ -120,16 +124,16 @@ public class guiBuilder extends JPanel {
 		}
 
 		buttonPane.add(requests);
-	
-		
+
+
 		// Add elements to sub panes:
-	    dropDownPane.add(datePicker);	   
+	    dropDownPane.add(datePicker);
 		dropDownPane.add(startL);
 		dropDownPane.add(startSpinner);
-		dropDownPane.add(endL);	
+		dropDownPane.add(endL);
 		dropDownPane.add(endSpinner);
 		dropDownPane.add(roomBox);
-	
+
 		// Set all the layouts and add all the elements to the appropriate frames.
 		calenderPane.setPreferredSize(new Dimension(800, 400));
 		calenderPane.setRowHeaderView(rowTable);
@@ -167,5 +171,23 @@ public class guiBuilder extends JPanel {
 		}
 		return data;
 	}
+
+	//Render Cells According to Data within cell
+	class CustomRenderer extends DefaultTableCellRenderer
+	{
+	private static final long serialVersionUID = 6703872492730589499L;
+	   public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
+
+	       Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+	        if(table.getValueAt(row, column).equals("Blank")){
+	            cellComponent.setBackground(Color.GREEN);
+	        } else if(table.getValueAt(row, column).equals("Booked")){
+	           cellComponent.setBackground(Color.RED);
+	        }
+	        return cellComponent;
+	    }}
+
+
 
 }
